@@ -1,0 +1,24 @@
+package io.github.curso.icompras.pedidos.service;
+
+import io.github.curso.icompras.pedidos.model.Pedido;
+import io.github.curso.icompras.pedidos.repository.ItemPedidoRepository;
+import io.github.curso.icompras.pedidos.repository.PedidoRepository;
+import io.github.curso.icompras.pedidos.validator.PedidoValidator;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class PedidoService {
+
+    private final PedidoRepository repository;
+    private final ItemPedidoRepository itemPedidoRepository;
+    private final PedidoValidator validator;
+
+    public Pedido criarPedido(Pedido pedido) {
+        repository.save(pedido);
+        itemPedidoRepository.saveAll(pedido.getItens());
+        return pedido;
+    }
+
+}
